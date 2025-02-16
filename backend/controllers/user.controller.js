@@ -1,4 +1,4 @@
-import { User } from "../models/user.js";
+import user, { User } from "../models/user.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 
@@ -86,6 +86,67 @@ export const login = async (req, res) => {
             success: true
         })
     } catch (error) {
+        console.log(error);
+    }
+}
 
+export const logout = async(req,res)=>{
+    try {
+        return res.status(200).cookie("token","",{maxAge:0}).json({
+            message:"Logged out successfully",
+            success:true
+        })
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+export const updateprofile = async (req,res) => {
+    try{
+        const{fullname,email,phonenumber,bio,skills} = req.body;
+        const file = req.file;
+        if (!fullname || !email || !phonenumber || !bio || !skills) {
+            return res.status(400).json({
+                message: "something's wrong",
+                success: false
+            });
+        }
+        const skillsarr = skills.split(",");
+        const userId = req.id;
+        let user= await user.findById(userId);
+
+        if(!user){
+            return res.status(400).json({
+                message: "user not found",
+                success: false
+            })
+        }
+
+        user.fullname = fullname,
+        user.email = email,
+        user.phonenumber = phonenumber,
+        user.profile.bio = bio,
+        user.profile.skills = skillsarr
+        
+        await user.save();
+
+
+        user = {
+            _id: user._id,
+            fullname: user.fullname,
+            email: user.email,
+            phoneNumber: user.phoneNumber,
+            role: user.role,
+            profile: user.profile
+        }
+
+        return res.status(200).json({
+            message:"profile updated succesfully",
+            user,
+            success: true
+        })
+
+    } catch(error){
+        console.log(error);
     }
 }
