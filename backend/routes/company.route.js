@@ -5,8 +5,8 @@ import { getcompany, getcompanybyId, registercompany, updatecompany } from "../c
 const router = express.Router();
 
 router.route("/register").post(isauthenticated,registercompany);
-router.route("/get").post(isauthenticated,getcompany);
+router.route("/get").get(isauthenticated,getcompany);
 router.route("/get/:id").get(isauthenticated,getcompanybyId);
-router.route("/update/:id").post(isauthenticated,updatecompany);
+router.route("/update/:id").put(isauthenticated,updatecompany);
 
 export default router;

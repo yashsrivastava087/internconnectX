@@ -12,6 +12,7 @@ export const register = async (req, res) => {
                 success: false
             });
         }
+        
 
         const existingUser = await User.findOne({ email });
 
@@ -30,6 +31,7 @@ export const register = async (req, res) => {
             phonenumber,
             pw: hashedpw,
             role,
+            ...(role === "Student" && { collegeemail }),
             profile: { bio: "", skills: [] }
         });
 

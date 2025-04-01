@@ -1,4 +1,4 @@
-import { Company } from "../models/company"; 
+import { Company } from "../models/company.js"; 
 export const registercompany = async (req,res) => {
     try {
         const {companyName} = req.body;
@@ -42,6 +42,11 @@ export const getcompany = async (req,res) => {
                 success:false
             })
         }
+        return res.status(200).json({
+            message:"corect",
+            companies,
+            success: true
+        })
         
     } catch (error) {
         console.log(error);

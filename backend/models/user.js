@@ -24,9 +24,11 @@ const usermodel = new mongoose.Schema({
         required: true,
         enum: ['Student', 'Recruiter']
     },
-    collegename: {
+    collegeemail: {
         type: String,
-    },
+        unique: true,
+        sparse: true, // Allows multiple null values
+      },
     profile: {
         bio: { type: String },
         skills: { type: [String] },  
