@@ -25,7 +25,7 @@ const Jobmodel = new mongoose.Schema({
     required: true
   },
   position: {
-    type: String, // Changed from Number to String (assuming it's a job title)
+    type: String,
     required: true
   },
   company: {
