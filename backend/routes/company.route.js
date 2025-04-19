@@ -9,4 +9,4 @@ router.route("/get").get(isauthenticated,getcompany);
 router.route("/get/:id").get(isauthenticated,getcompanybyId);
 router.route("/update/:id").put(isauthenticated,updatecompany);
 
-export default router;
+export default router;  

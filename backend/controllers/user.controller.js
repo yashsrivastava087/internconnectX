@@ -4,18 +4,23 @@ import jwt from "jsonwebtoken";
 
 export const register = async (req, res) => {
     try {
-        const { fullname, email, phonenumber, pw, role } = req.body;
+        const { fullname, email, collegeemail, phonenumber, pw, role } = req.body;
 
         if (!fullname || !email || !phonenumber || !pw || !role) {
             return res.status(400).json({
-                message: "Something's missing",
+                message: "Required fields are missing",
                 success: false
             });
         }
-        
+
+        if (role === "Student" && !collegeemail) {
+            return res.status(400).json({
+                message: "College email is required for students",
+                success: false
+            });
+        }
 
         const existingUser = await User.findOne({ email });
-
         if (existingUser) { 
             return res.status(400).json({
                 message: "User with this email already exists",
@@ -31,7 +36,7 @@ export const register = async (req, res) => {
             phonenumber,
             pw: hashedpw,
             role,
-            ...(role === "Student" && { collegeemail }),
+            ...(role === "Student" && { collegeemail }), // Now properly defined
             profile: { bio: "", skills: [] }
         });
 
@@ -42,13 +47,14 @@ export const register = async (req, res) => {
         });
 
     } catch (error) {
-        console.error(error);
+        console.error("Registration Error:", error);
         return res.status(500).json({
             message: "Internal Server Error",
             success: false
         });
     }
 };
+
 
 export const login = async (req, res) => {
     try {
