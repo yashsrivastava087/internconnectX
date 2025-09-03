@@ -23,12 +23,12 @@ const usermodel = new mongoose.Schema({
     role: {
         type: String,
         required: true,
-        enum: ['Student', 'Recruiter']
+        enum: ['student', 'recruiter']
     },
     collegeemail: {
         type: String,
         unique: true,
-        sparse: true, // Allows multiple null values
+        sparse: true, 
       },
     profile: {
         bio: { type: String },

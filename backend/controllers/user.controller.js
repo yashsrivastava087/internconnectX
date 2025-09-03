@@ -13,7 +13,7 @@ export const register = async (req, res) => {
             });
         }
 
-        if (role === "Student" && !collegeemail) {
+        if (role.toLowerCase() === "student" && !collegeemail) {
             return res.status(400).json({
                 message: "College email is required for students",
                 success: false
@@ -36,7 +36,7 @@ export const register = async (req, res) => {
             phonenumber,
             pw: hashedpw,
             role,
-            ...(role === "Student" && { collegeemail }), // Now properly defined
+            ...(role.toLowerCase() === "student" && { collegeemail }), 
             profile: { bio: "", skills: [] }
         });
 
